@@ -1,5 +1,5 @@
 {
-  "name": "BEA Logger",
+  "name": "bea/logger",
   "description": "Basic WordPress log class",
   "minimum-stability": "stable",
   "license": "GPL-2.0",
