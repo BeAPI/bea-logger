@@ -1,0 +1,16 @@
+{
+  "name": "BEA Logger",
+  "description": "Basic WordPress log class",
+  "minimum-stability": "stable",
+  "license": "GPL-2.0",
+  "authors": [
+    {
+      "name": "Nicolas JUEN",
+      "email": "njuen@beapi.fr"
+    }
+  ],
+  "type" : "wordpress-muplugin",
+  "require" : {
+    "composer/installers" : "~1.0"
+  }
+}
