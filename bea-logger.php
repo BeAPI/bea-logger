@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: BEA lOGGER
- Version: 0.1
+ Version: 0.2
  Plugin URI: https://github.com/beapi/bea-logger
  Description: Allow to log basic data on a log file
  Author: Beapi
@@ -77,8 +77,8 @@ class Bea_Log {
 	 * @param string $file_extension
 	 * @param string $retention_size
 	 */
-	function __construct( $file_path, $file_extension = '.log' , $retention_size = '' ) {
-		if( !isset( $file_path ) || empty( $file_path ) ) {
+	function __construct( $file_path, $file_extension = '.log', $retention_size = '' ) {
+		if ( ! isset( $file_path ) || empty( $file_path ) ) {
 			return false;
 		}
 
@@ -86,12 +86,12 @@ class Bea_Log {
 		$this->file_path = $file_path;
 
 		// File extension
-		if( isset( $file_ ) ) {
+		if ( isset( $file_extension ) ) {
 			$this->file_extension = $file_extension;
 		}
 
 		// Retention size
-		if( isset( $retention_size ) && !empty( $retention_size ) && (int)$retention_size > 0 ) {
+		if ( isset( $retention_size ) && ! empty( $retention_size ) && (int) $retention_size > 0 ) {
 			$this->retention_size = $retention_size;
 		}
 
@@ -108,7 +108,7 @@ class Bea_Log {
 	 * @author Nicolas Juen
 	 */
 	public function log_this( $message, $type = self::gravity_7 ) {
-		if( false === $this->is_configured ) {
+		if ( false === $this->is_configured ) {
 			return false;
 		}
 
@@ -119,26 +119,49 @@ class Bea_Log {
 		$this->maybe_move_file( $file_path );
 
 		// Log the error
-		error_log( date('[d-m-Y H:i:s]').'['.$type.'] '.$message."\n", 3, $file_path );
+		error_log( sprintf( '[%s][%s] %s', date( 'd-m-Y H:i:s' ), $type, self::convert_message( $message ) )."\n", 3, $file_path );
+
 		return true;
 	}
 
+	/**
+	 * Change the message to the right type if needed
+	 *
+	 * @param mixed $message
+	 *
+	 * @return string
+	 * @author Nicolas Juen
+	 */
+	private static function convert_message( $message ) {
+		if ( is_object( $message ) || is_array( $message ) ) {
+			$message = print_r( $message, true );
+		}
+		return $message;
+	}
+
+	/**
+	 * Rename the file if exceed the file max retention
+	 *
+	 * @param $file_path
+	 *
+	 * @author Nicolas Juen
+	 */
 	private function maybe_move_file( $file_path ) {
 		// If the file exists
-		if( !is_file( $file_path ) ) {
+		if ( ! is_file( $file_path ) ) {
 			return;
 		}
 
-		if( ! $this->exceed_retention( filesize( $file_path ) ) ) {
+		if ( ! $this->exceed_retention( filesize( $file_path ) ) ) {
 			return;
 		}
 
 		// Rename the file
-		rename( $file_path, $this->file_path . '-' . date( 'Y-m-d-H-i-s' ) . $this->file_extension );
+		rename( $file_path, sprintf( '%s-%s%s', $this->file_path, date( 'Y-m-d-H-i-s' ), $this->file_extension ) );
 	}
 
 	/**
-	 * Check retention size is
+	 * Check retention size is exceeded or not
 	 *
 	 * @param $size
 	 *
