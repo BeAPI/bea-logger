@@ -4,7 +4,7 @@ Basic and simple logger
 # Usage
 
 
-    <?php $logger = new Bea_Log( WP_CONTENT.'/my-logger' );
+    <?php $logger = new Bea_Log( WP_CONTENT_DIR . '/my-logger' );
     $logger->log_this( 'Log this message', Bea_Log::gravity_0 );
 
 Will log something like this this :
