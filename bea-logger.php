@@ -119,7 +119,11 @@ class Bea_Log {
 		$this->maybe_move_file( $file_path );
 
 		// Log the error
-		error_log( date('[d-m-Y H:i:s]').'['.$type.'] '.$message."\n", 3, $file_path );
+		if ( is_array( $message ) || is_object( $message ) ) {
+			error_log( date('[d-m-Y H:i:s]').'['.$type.'] '. print_r( $message, true ) ."\n", 3, $file_path );
+		} else {
+			error_log( date('[d-m-Y H:i:s]').'['.$type.'] '.$message."\n", 3, $file_path );
+		}
 		return true;
 	}
 
