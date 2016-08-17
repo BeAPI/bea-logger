@@ -1,10 +1,10 @@
 <?php
 /*
  Plugin Name: BEA lOGGER
- Version: 0.2
+ Version: 0.3
  Plugin URI: https://github.com/beapi/bea-logger
  Description: Allow to log basic data on a log file
- Author: Beapi
+ Author: BeAPI
  Author URI: http://www.beapi.fr
 
  ----
@@ -26,7 +26,10 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// Check if class already exists
+/**
+ * Check if class already exists
+ * @since 0.3
+ */
 if ( class_exists( 'Bea_Log' ) ) {
 	return;
 }	
