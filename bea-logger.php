@@ -27,7 +27,7 @@
  */
 
 // Check if class already exists
-if ( functions( 'Bea_Log' ) ) {
+if ( class_exists( 'Bea_Log' ) ) {
 	return;
 }	
 
