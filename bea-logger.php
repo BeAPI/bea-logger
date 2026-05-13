@@ -194,7 +194,15 @@ class Bea_Log {
 			return;
 		}
 
-		$zip->addFile( $rotated_path, basename( $rotated_path ) );
+		$entry_name = basename( $rotated_path );
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- ZipArchive API property.
+		if ( ! $zip->addFile( $rotated_path, $entry_name ) || $zip->numFiles < 1 ) {
+			$zip->close();
+			if ( is_file( $zip_path ) ) {
+				unlink( $zip_path );
+			}
+			return;
+		}
 
 		if ( ! $zip->close() ) {
 			if ( is_file( $zip_path ) ) {
